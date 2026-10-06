@@ -743,3 +743,16 @@ article .prose { padding-bottom: clamp(110px, 15vw, 190px); }
 .diagram:not(.carbon) .d-dash { stroke-dasharray: 4 5; }
 .art-cap { font-family: var(--body); font-size: 13px; font-weight: 600; fill: var(--deep); opacity: .78; }
 .art-cap-b { font-weight: 700; opacity: 1; }
+
+/* Phones: keep the hero shapes in the margins and the bands above and below the text, never on it */
+@media (max-width: 700px) {
+  .p-palm { left: 3%; top: 0; }
+  .p-sprout { right: -3%; top: 0; }
+  .p-leaf { right: 2%; top: 16%; }
+  .p-dome { left: -6.5%; top: 37%; }
+  .p-flower { left: 3%; bottom: 3%; }
+  .p-peb { right: 8%; bottom: 4%; }
+}
+@media (max-width: 820px) { .p-squig { left: 0.5%; top: 47%; } }
+/* Small laptops and landscape tablets: keep the stamp inside the page so nothing scrolls sideways */
+@media (min-width: 1001px) and (max-width: 1240px) { .proof-b { right: 2.5%; } }
