@@ -803,3 +803,8 @@ article .prose { padding-bottom: clamp(110px, 15vw, 190px); }
   .card:hover .a-wave, .card:focus-visible .a-wave { animation: a-wave 1.2s ease-in-out 2; }
   .card:hover .a-wave2, .card:focus-visible .a-wave2 { animation-delay: .2s; }
 }
+
+/* Header logo: 3D Jill Lin mark */
+.logo img { display: block; height: 48px; width: auto; transition: transform .18s ease; }
+@media (hover: hover) { .logo:hover img { transform: rotate(-2deg) scale(1.03); } }
+@media (max-width: 600px) { .logo img { height: 40px; } }
