@@ -793,27 +793,17 @@ article .prose { padding-bottom: clamp(110px, 15vw, 190px); }
 .a-pop, .a-cur, .a-press, .a-knob, .a-prog { transform-box: fill-box; transform-origin: center; }
 .a-prog { transform-origin: left center; }
 .a-draw { stroke-dasharray: 100; }
-@media (hover: hover) {
-  .card:hover .a-draw, .card:focus-visible .a-draw { animation: a-draw .7s ease-out both; }
-  .card:hover .a-pop, .card:focus-visible .a-pop { animation: a-pop .45s .5s ease-out; }
-  .card:hover .a-cur, .card:focus-visible .a-cur { animation: a-cur .9s cubic-bezier(.3, 1.2, .5, 1) both; }
-  .card:hover .a-press, .card:focus-visible .a-press { animation: a-press .9s ease-out; }
-  .card:hover .a-knob, .card:focus-visible .a-knob { animation: a-knob .35s .1s cubic-bezier(.3, 1.4, .5, 1) both; }
-  .card:hover .a-prog, .card:focus-visible .a-prog { animation: a-prog 1.2s ease-in-out both; }
-  .card:hover .a-wave, .card:focus-visible .a-wave { animation: a-wave 1.2s ease-in-out 2; }
-  .card:hover .a-wave2, .card:focus-visible .a-wave2 { animation-delay: .2s; }
-}
-/* Touch screens have no hover: play the same animation when the tile scrolls into view (class set by the home page script) */
-@media (hover: none) {
-  .card.in-view .a-draw { animation: a-draw .7s ease-out both; }
-  .card.in-view .a-pop { animation: a-pop .45s .5s ease-out; }
-  .card.in-view .a-cur { animation: a-cur .9s cubic-bezier(.3, 1.2, .5, 1) both; }
-  .card.in-view .a-press { animation: a-press .9s ease-out; }
-  .card.in-view .a-knob { animation: a-knob .35s .1s cubic-bezier(.3, 1.4, .5, 1) both; }
-  .card.in-view .a-prog { animation: a-prog 1.2s ease-in-out both; }
-  .card.in-view .a-wave { animation: a-wave 1.2s ease-in-out 2; }
-  .card.in-view .a-wave2 { animation-delay: .2s; }
-}
+/* Tile animations play while the card has .in-view. The home page script sets it:
+   desktop on hover or keyboard focus (replaying after a 1s pause while the pointer stays),
+   touch screens when the tile scrolls into view */
+.card.in-view .a-draw { animation: a-draw .7s ease-out both; }
+.card.in-view .a-pop { animation: a-pop .45s .5s ease-out; }
+.card.in-view .a-cur { animation: a-cur .9s cubic-bezier(.3, 1.2, .5, 1) both; }
+.card.in-view .a-press { animation: a-press .9s ease-out; }
+.card.in-view .a-knob { animation: a-knob .35s .1s cubic-bezier(.3, 1.4, .5, 1) both; }
+.card.in-view .a-prog { animation: a-prog 1.2s ease-in-out both; }
+.card.in-view .a-wave { animation: a-wave 1.2s ease-in-out 2; }
+.card.in-view .a-wave2 { animation-delay: .2s; }
 
 /* Header logo: 3D Jill Lin mark */
 .logo img { display: block; height: 38px; width: auto; transition: transform .18s ease; }
