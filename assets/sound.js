@@ -1,10 +1,11 @@
 /* Soft click on every link and button, site-wide; a chime for the "reach out" actions
-   (copy email, resume download, LinkedIn). Off by default; visitor opts in with the speaker toggle. */
+   (copy email, resume download, LinkedIn). On by default; visitors can mute with the speaker toggle. */
 (function () {
   var KEY = "byjill-sound", VOLUME = 0.3;
   var btn = document.querySelector(".sound-toggle");
   var ctx = null, on = false;
-  try { on = localStorage.getItem(KEY) === "on"; } catch (e) {}
+  on = true;
+  try { on = localStorage.getItem(KEY) !== "off"; } catch (e) {}
 
   function audio() {
     if (!ctx) {
@@ -48,6 +49,11 @@
       o.stop(t + 0.5);
     });
   }
+
+  /* Browsers keep audio locked until the first tap or click; unlock it then (needed on iPhone) */
+  ["pointerdown", "touchend", "keydown"].forEach(function (ev) {
+    document.addEventListener(ev, function () { if (on) audio(); }, { once: true, capture: true, passive: true });
+  });
 
   var CHIME = "[data-copy], a[download], a[href*='linkedin.com']";
   function play(t) { t.matches(CHIME) ? chime() : click(); }
