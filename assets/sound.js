@@ -1,4 +1,4 @@
-/* Pop on every link and button, site-wide; a chime for the "reach out" actions
+/* Soft click on every link and button, site-wide; a chime for the "reach out" actions
    (copy email, resume download, LinkedIn). Off by default; visitor opts in with the speaker toggle. */
 (function () {
   var KEY = "byjill-sound", VOLUME = 0.3;
@@ -21,15 +21,14 @@
     if (!c) return;
     var t = c.currentTime, o = c.createOscillator(), g = c.createGain();
     o.type = "sine";
-    /* Pop: a quick downward pitch drop, 700 -> 180 Hz over ~90 ms */
-    o.frequency.setValueAtTime(700, t);
-    o.frequency.exponentialRampToValueAtTime(180, t + 0.09);
+    o.frequency.setValueAtTime(1500, t);
+    o.frequency.exponentialRampToValueAtTime(900, t + 0.03);
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.8 * VOLUME, t + 0.004);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+    g.gain.exponentialRampToValueAtTime(0.6 * VOLUME, t + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
     o.connect(g).connect(c.destination);
     o.start(t);
-    o.stop(t + 0.12);
+    o.stop(t + 0.06);
   }
 
   /* Two-note chime (A5 + E6). Used only where the visitor stays on the page, so it's never cut off. */
