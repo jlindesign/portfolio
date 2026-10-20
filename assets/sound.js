@@ -1,4 +1,5 @@
-/* Soft click on every link and button, site-wide. Off by default; visitor opts in with the speaker toggle. */
+/* Soft click on every link and button, site-wide; a chime for the "reach out" actions
+   (copy email, resume download, LinkedIn). Off by default; visitor opts in with the speaker toggle. */
 (function () {
   var KEY = "byjill-sound", VOLUME = 0.3;
   var btn = document.querySelector(".sound-toggle");
@@ -30,6 +31,27 @@
     o.stop(t + 0.06);
   }
 
+  /* Two-note chime (A5 + E6). Used only where the visitor stays on the page, so it's never cut off. */
+  function chime() {
+    var c = audio();
+    if (!c) return;
+    var t = c.currentTime;
+    [[880, 0.45], [1320, 0.25]].forEach(function (n) {
+      var o = c.createOscillator(), g = c.createGain();
+      o.type = "sine";
+      o.frequency.value = n[0];
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(n[1] * VOLUME, t + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(c.destination);
+      o.start(t);
+      o.stop(t + 0.5);
+    });
+  }
+
+  var CHIME = "[data-copy], a[download], a[href*='linkedin.com']";
+  function play(t) { t.matches(CHIME) ? chime() : click(); }
+
   function render() {
     if (!btn) return;
     btn.setAttribute("aria-pressed", on ? "true" : "false");
@@ -56,9 +78,11 @@
     return t && t !== btn ? t : null; /* the toggle plays its own confirmation */
   }
   document.addEventListener("pointerdown", function (e) {
-    if (on && e.button === 0 && target(e.target)) click();
+    var t = on && e.button === 0 && target(e.target);
+    if (t) play(t);
   }, true);
   document.addEventListener("keydown", function (e) {
-    if (on && (e.key === "Enter" || e.key === " ") && target(document.activeElement)) click();
+    var t = on && (e.key === "Enter" || e.key === " ") && target(document.activeElement);
+    if (t) play(t);
   }, true);
 })();
