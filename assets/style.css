@@ -803,6 +803,17 @@ article .prose { padding-bottom: clamp(110px, 15vw, 190px); }
   .card:hover .a-wave, .card:focus-visible .a-wave { animation: a-wave 1.2s ease-in-out 2; }
   .card:hover .a-wave2, .card:focus-visible .a-wave2 { animation-delay: .2s; }
 }
+/* Touch screens have no hover: play the same animation when the tile scrolls into view (class set by the home page script) */
+@media (hover: none) {
+  .card.in-view .a-draw { animation: a-draw .7s ease-out both; }
+  .card.in-view .a-pop { animation: a-pop .45s .5s ease-out; }
+  .card.in-view .a-cur { animation: a-cur .9s cubic-bezier(.3, 1.2, .5, 1) both; }
+  .card.in-view .a-press { animation: a-press .9s ease-out; }
+  .card.in-view .a-knob { animation: a-knob .35s .1s cubic-bezier(.3, 1.4, .5, 1) both; }
+  .card.in-view .a-prog { animation: a-prog 1.2s ease-in-out both; }
+  .card.in-view .a-wave { animation: a-wave 1.2s ease-in-out 2; }
+  .card.in-view .a-wave2 { animation-delay: .2s; }
+}
 
 /* Header logo: 3D Jill Lin mark */
 .logo img { display: block; height: 38px; width: auto; transition: transform .18s ease; }
