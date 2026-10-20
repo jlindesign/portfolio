@@ -808,3 +808,6 @@ article .prose { padding-bottom: clamp(110px, 15vw, 190px); }
 .logo img { display: block; height: 38px; width: auto; transition: transform .18s ease; }
 @media (hover: hover) { .logo:hover img { transform: rotate(-2deg) scale(1.03); } }
 @media (max-width: 600px) { .logo img { height: 30px; } }
+
+/* Desktop only: the hero description matches the title's width (the title is 104px, or 8.4vw below 1238px) */
+@media (min-width: 1001px) { .collage .scrap { max-width: min(53vw, 655px); } }
