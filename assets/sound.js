@@ -1,4 +1,4 @@
-/* Soft click on case study tiles. Off by default; visitor opts in with the speaker toggle. */
+/* Soft click on every link and button, site-wide. Off by default; visitor opts in with the speaker toggle. */
 (function () {
   var KEY = "byjill-sound", VOLUME = 0.3;
   var btn = document.querySelector(".sound-toggle");
@@ -48,9 +48,17 @@
     });
   }
 
-  /* pointerdown fires before navigation starts, so the 40 ms click isn't cut off */
-  document.querySelectorAll("a.card").forEach(function (a) {
-    a.addEventListener("pointerdown", function (e) { if (on && e.button === 0) click(); });
-    a.addEventListener("keydown", function (e) { if (on && e.key === "Enter") click(); });
-  });
+  /* Every clickable thing on the page: links, buttons, form controls, image zoom triggers.
+     pointerdown fires before navigation starts, so the 40 ms click isn't cut off. */
+  var CLICKABLE = "a[href], button, [role='button'], summary, label, input, select, [onclick], [data-zoom]";
+  function target(el) {
+    var t = el && el.closest ? el.closest(CLICKABLE) : null;
+    return t && t !== btn ? t : null; /* the toggle plays its own confirmation */
+  }
+  document.addEventListener("pointerdown", function (e) {
+    if (on && e.button === 0 && target(e.target)) click();
+  }, true);
+  document.addEventListener("keydown", function (e) {
+    if (on && (e.key === "Enter" || e.key === " ") && target(document.activeElement)) click();
+  }, true);
 })();
