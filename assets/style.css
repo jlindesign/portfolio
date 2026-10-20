@@ -805,6 +805,6 @@ article .prose { padding-bottom: clamp(110px, 15vw, 190px); }
 }
 
 /* Header logo: 3D Jill Lin mark */
-.logo img { display: block; height: 48px; width: auto; transition: transform .18s ease; }
+.logo img { display: block; height: 38px; width: auto; transition: transform .18s ease; }
 @media (hover: hover) { .logo:hover img { transform: rotate(-2deg) scale(1.03); } }
 @media (max-width: 600px) { .logo img { height: 30px; } }
