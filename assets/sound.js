@@ -1,11 +1,8 @@
 /* Soft click on every link and button, site-wide; a chime for the "reach out" actions
-   (copy email, resume download, LinkedIn). On by default; visitors can mute with the speaker toggle. */
+   (copy email, resume download, LinkedIn). Always on; there is no mute control. */
 (function () {
-  var KEY = "byjill-sound", VOLUME = 0.3;
-  var btn = document.querySelector(".sound-toggle");
-  var ctx = null, on = false;
-  on = true;
-  try { on = localStorage.getItem(KEY) !== "off"; } catch (e) {}
+  var VOLUME = 0.3;
+  var ctx = null;
 
   function audio() {
     if (!ctx) {
@@ -52,43 +49,21 @@
 
   /* Browsers keep audio locked until the first tap or click; unlock it then (needed on iPhone) */
   ["pointerdown", "touchend", "keydown"].forEach(function (ev) {
-    document.addEventListener(ev, function () { if (on) audio(); }, { once: true, capture: true, passive: true });
+    document.addEventListener(ev, audio, { once: true, capture: true, passive: true });
   });
 
   var CHIME = "[data-copy], a[download], a[href*='linkedin.com']";
-  function play(t) { t.matches(CHIME) ? chime() : click(); }
-
-  function render() {
-    if (!btn) return;
-    btn.setAttribute("aria-pressed", on ? "true" : "false");
-    btn.setAttribute("aria-label", on ? "Turn sound off" : "Turn sound on");
-    btn.title = on ? "Sound on" : "Sound off";
-  }
-
-  if (btn) {
-    btn.hidden = false;
-    render();
-    btn.addEventListener("click", function () {
-      on = !on;
-      try { localStorage.setItem(KEY, on ? "on" : "off"); } catch (e) {}
-      render();
-      if (on) click(); /* confirms the setting and unlocks audio on iOS */
-    });
-  }
-
-  /* Every clickable thing on the page: links, buttons, form controls, image zoom triggers.
-     pointerdown fires before navigation starts, so the 40 ms click isn't cut off. */
   var CLICKABLE = "a[href], button, [role='button'], summary, label, input, select, [onclick], [data-zoom]";
-  function target(el) {
-    var t = el && el.closest ? el.closest(CLICKABLE) : null;
-    return t && t !== btn ? t : null; /* the toggle plays its own confirmation */
-  }
+  function play(t) { t.matches(CHIME) ? chime() : click(); }
+  function target(el) { return el && el.closest ? el.closest(CLICKABLE) : null; }
+
+  /* pointerdown fires before navigation starts, so the 40 ms click isn't cut off */
   document.addEventListener("pointerdown", function (e) {
-    var t = on && e.button === 0 && target(e.target);
+    var t = e.button === 0 && target(e.target);
     if (t) play(t);
   }, true);
   document.addEventListener("keydown", function (e) {
-    var t = on && (e.key === "Enter" || e.key === " ") && target(document.activeElement);
+    var t = (e.key === "Enter" || e.key === " ") && target(document.activeElement);
     if (t) play(t);
   }, true);
 })();
